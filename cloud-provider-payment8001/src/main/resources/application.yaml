@@ -1,0 +1,54 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-provier-payment
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:mysql://47.105.161.220:3306/db2?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Zhou236513
+    driver-class-name: org.gjt.mm.mysql.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 默认 true 为 true 时 validationQuery 必须设为非空字符串
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 默认 false 为 true 时 validationQuery 必须设为非空字符串
+      # 【建议】配置为true，不影响性能，并且保证安全性。申请连接的时候检测，
+      # 如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 默认 true 为 true 时 validationQuery 必须设为非空字符串
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false
+      # 用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。如果validationQuery为null，
+      # testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      validation-query: select 1
+
+
+
+eureka:
+  client:
+    #false表示不向注册中心注册自己,ture表示将自己注册进Eurekaserver
+    register-with-eureka: true
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    #ture:表示是否从Eurekaserver抓取已有的注册信息，默认为ture,单节点无所谓，集群必须设置成ture,才能配合bibbin使用负载均衡
+    fetch-registry: true
+    service-url:
+      #设置与 eureka server交互的地址查询服务和注册服务都需要依赖这个地址
+      #defaultZone: http://localhost:7001/eureka       #单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka      #集群版
+  instance:
+    instance-id: payment8001    #修改主机名称
+    prefer-ip-address: true     #访问路径可以显示Ip地址
+
+
+
+mybatis:
+  # Mybatis配置Mapper路径
+  mapper-locations: classpath:mapper/*.xml
+  # Mybatis配置Model类对应
+  type-aliases-package: com.zhoujl.springcloud.entities
