@@ -74,4 +74,13 @@ public class PaymentController {
     }
 
 
+
+
+    //测试自写的负载均衡
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB() {
+        return serverPort;
+    }
+
+
 }
