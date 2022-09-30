@@ -1,0 +1,41 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称j进行路由
+      routes:
+        - id: payment_route # 路由的id,没有规定规则但要求唯一,建议配合服务名
+          #匹配后提供服务的路由地址
+          #uri: http://localhost:8001         #静态路由，写死了
+          uri: lb://CLOUD-PROVIER-PAYMENT     #配置动态理由，CLOUD-PROVIER-PAYMENT 指的Eurekas上的服务名称
+          predicates:
+            - Path=/payment/get/** # 断言，路径相匹配的进行路由
+        - id: payment_route2
+          #uri: http://localhost:8001          #静态路由，写死了
+          uri: lb://CLOUD-PROVIER-PAYMENT      #配置动态理由，CLOUD-PROVIER-PAYMENT 指的Eurekas上的服务名称
+          predicates:
+            - Path=/payment/lb/**                                    #断言,路径相匹配的进行路由
+            - After=2022-03-02T09:59:07.877+08:00[Asia/Shanghai]     #断言：这个时间之后这个路由才生效
+            #- Before=2022-03-02T09:59:07.877+08:00[Asia/Shanghai]   #断言：这个时间之前这个路由才生效
+            #- Between=2022-03-02T09:59:07.877+08:00[Asia/Shanghai],2022-03-03T09:59:07.877+08:00[Asia/Shanghai]             #断言：这个时间段之内这个路由才生效
+            #- Cookie=username,zhoujl       #断言： 规定cookie中要有一个k：v键值对   ，k是username, v: zhoujl   访问方式：    curl http://localhost:9527/payment/lb --cookie "username=zhoujl"
+            #- Header=X-Request-Id,\d+      #断言：规定请求头要有X-Request-Id属性，并且值是整数的正则表达式  curl http://localhost:9527/payment/lb -H "X-Request-Id:11"
+            #- Host=**.atguigu.com          #断言：规定 curl http://localhost:9527/payment/lb -H "Host:afae.atguigu.com"   这样方式访问
+            #- Method=GET                   #断言：规定这个路由只能是get方法请求
+            #- Query=username,\d+           #断言：规定请求路径中要有参数 username ，并且值是整数 才能路由    http://localhost:9527/payment/lb?username=1
+
+
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka

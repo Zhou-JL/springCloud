@@ -25,6 +25,7 @@ public class OrderConsulController {
 
     /**
      * http://localhost/consumer/payment/consul
+     *
      * @return
      */
     @GetMapping("/consumer/payment/consul")

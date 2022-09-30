@@ -13,4 +13,5 @@ eureka:
     fetch-registry: false
     service-url:
       #设置与 eureka server交互的地址查询服务和注册服务都需要依赖这个地址
-      defaultZone: http://eureka7001.com:7001/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/         #集群情况下指向另一个eureka
+      #defaultZone: http://eureka7002.com:7001/eureka/         #单机情况下指向自己

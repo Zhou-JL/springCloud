@@ -12,6 +12,6 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 //@RibbonClient(name = "CLOUD-PROVIER-PAYMENT", configuration = MySelfRule.class)     //引入负载均衡算法，服务名称，在eureka客户端页面
 public class OrderMain80 {
     public static void main(String[] args) {
-        SpringApplication.run(OrderMain80.class,args);
+        SpringApplication.run(OrderMain80.class, args);
     }
 }

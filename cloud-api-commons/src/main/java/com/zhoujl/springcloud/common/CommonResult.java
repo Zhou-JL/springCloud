@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 统一返回体
+ *
  * @param <T>
  */
 @Data
@@ -18,7 +19,7 @@ public class CommonResult<T> {
     private String message;
     private T data;
 
-    public CommonResult(Integer code, String message){
-        this(code,message,null);
+    public CommonResult(Integer code, String message) {
+        this(code, message, null);
     }
 }
